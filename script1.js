@@ -1,126 +1,211 @@
-const nombreUsuario ="Angel";
-const mailUsuario = "angelvamosla12@hotmail.com";
-const passUsuario = "1234";
+//Objetos
 
-let respuesta = confirm ("Desea registrarse?") ;
-
-if (respuesta) {
-    solicitarDatos();
-
+class Usuario {
+    constructor(user,pass){
+        this.user = user;
+        this.pass = pass;
+    }
 }
 
-function solicitarDatos(){
+class Producto{
+    constructor(nombre,precio,id){
+        this.nombre = nombre;
+        this.precio = precio;
+        this.id = id;
+    }
+}
 
-    let user = prompt ("Ingrese su usuario");
-    let mail = prompt ("Ingrese su email");
-    let pass = prompt ("Ingrese su pass");
+const acapulco = new Producto("Juego Acapulco", 13900, 1);
+const asuncion = new Producto("Juego Asuncion", 14900, 2);
+const capri = new Producto("Juego Capri", 14900, 3);
+const doble = new Producto("Sillon Doble", 9500, 4);
+const gervasoni = new Producto("Juego Gervasoni", 21900, 5);
+const tulum = new Producto("Silla Tulum", 6000, 6);
 
-    if (user && mail && pass ){
+//Arrays
 
-        let validacion = validarDatos(user,mail);
+const arrayUsuarios = [];
+const arrayProductos = [acapulco,asuncion,capri,gervasoni,doble,tulum];
+const arrayCarrito = [];
 
-        if (validacion){
+//Otros
 
-                const usuario = new Usuario (user,mail,pass);
-                usuario.mensajeBienvenida();
-                respuestainiciarCarrito = confirm("Desea continuar para comprar en nuestra web?");
-                if (respuestainiciarCarrito){
-                    iniciarCarrito ();
-                }else{
-                    solicitarDatos ();
-                }
+const prodCarrito = document.getElementById("prodCarrito");
+const navBar = document.getElementById("navBar");
 
+//Registro
 
-        }else{
+const btnRegistro = document.getElementById("btn-registro");
 
-           solicitarDatos();
+btnRegistro.addEventListener("click", (e) => {
+    e.preventDefault();
+    navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
+                        <form id="formulario">
+                            <label>Por favor registre sus datos a continuacion:</label>
+                            <br>
+                            <input type="text" id="usuario" placeholder="User">
+                            <input type="text" id="password" placeholder="Password">
+                            <button>Registrarse</button>
+                        </form>`;
+    registrarse();
+})
 
-        }
+function registrarse(){
+    const formulario = document.getElementById("formulario");
 
+    formulario.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const usuario = document.getElementById("usuario").value;
+    const password = document.getElementById("password").value;
+
+    let clienteNuevo = new Usuario (usuario, password);
+    arrayUsuarios.push(clienteNuevo);
+    const clienteJson = JSON.stringify(arrayUsuarios);
+    localStorage.setItem("cliente", clienteJson);
+    const clienteN = localStorage.getItem("cliente");
+    console.log(`Se logueo el cliente: ${clienteN}`);
+
+    innersLogueo();
+})}
+
+//Inners post-logueo
+
+function innersLogueo(){
+    agAcapulco.innerHTML = `<h3 id="ag-acapulco"><a href="#">AGREGAR AL CARRITO</a></h3>`;
+    agAsuncion.innerHTML = `<h3 id="ag-asuncion"><a href="#">AGREGAR AL CARRITO</a></h3>`;
+    agCapri.innerHTML = `<h3 id="ag-capri"><a href="#">AGREGAR AL CARRITO</a></h3>`;
+    agDoble.innerHTML = `<h3 id="ag-doble"><a href="#">AGREGAR AL CARRITO</a></h3>`;
+    agGervasoni.innerHTML = `<h3 id="ag-gervasoni"><a href="#">AGREGAR AL CARRITO</a></h3>`;
+    agTulum.innerHTML = `<h3 id="ag-tulum"><a href="#">AGREGAR AL CARRITO</a></h3>`;
+
+    navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
+                        <h2>Bienvenido ${arrayUsuarios[0].user}!</h2>
+                        <h2>Salir</h2>`
+}
+
+//Carrito - Mostrar
+
+function mostrarCarrito(){
+    const carritoRec = localStorage.getItem("carrito");
+    const carritoObjeto = JSON.parse(carritoRec);
+    
+    prodCarrito.innerHTML = `<span class="infoCarrito">Tu carrito:</span>`;
+    carritoObjeto.forEach(Carrito => {
+        const pCarrito = document.createElement("p");
+        pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - ${Carrito.precio} | <button id="btnEliminar${Carrito.id}">Eliminar</button><br></p>`
+        prodCarrito.appendChild(pCarrito);
+
+        const btnEliminar = document.getElementById(`btnEliminar${Carrito.id}`);
+        btnEliminar.addEventListener("click", () => {
+            eliminarProdcarrito(Carrito.id);
+        })
+        
+})}
+
+//Eliminar del Carrito
+
+const eliminarProdcarrito = (id) => {
+    const prod = arrayCarrito.find(carrito => carrito.id === id);
+    const index = arrayCarrito.indexOf(prod);
+    arrayCarrito.splice(index,1);
+    mostrarCarrito();
+}
+
+//Botones para Agregar al Carrito
+
+const agAcapulco = document.getElementById("ag-acapulco");
+const agAsuncion = document.getElementById("ag-asuncion");
+const agCapri = document.getElementById("ag-capri");
+const agDoble = document.getElementById("ag-doble");
+const agGervasoni = document.getElementById("ag-gervasoni");
+const agTulum = document.getElementById("ag-tulum");
+
+agAcapulco.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    arrayCarrito.push(arrayProductos[0]);
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Acapulco al carrito`);
+    agAcapulco.innerHTML = `<h3 id="ag-acapulco"><a href="#">AGREGAR AL CARRITO</a></h3>
+                            <img src="img/CARRITO.png" class="carritoimg">`;
+    const carritoJson = JSON.stringify(arrayCarrito);
+    localStorage.setItem("carrito", carritoJson);
+    mostrarCarrito();
     }else{
+        agAcapulco.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+    }}
+) 
 
-        alert("Tenes que completar todos los datos") ;
-        solicitarDatos ();
+agAsuncion.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    arrayCarrito.push(arrayProductos[1]);
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Asuncion al carrito`);
+    agAsuncion.innerHTML = `<h3 id="ag-asuncion"><a href="#">AGREGAR AL CARRITO</a></h3>
+                            <img src="img/CARRITO.png" class="carritoimg">`;
+                            const carritoJson = JSON.stringify(arrayCarrito);
+                            localStorage.setItem("carrito", carritoJson);
+                            mostrarCarrito();
+    }else{
+        agAsuncion.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+    }}
+) 
 
-    }
-}
-
-function validarDatos(user,mail){
-
-    if (user === nombreUsuario){
-
-        alert("ya existe ese nombre de usuario");
-        return false;
-
-    }
-
-    if (mail === mailUsuario){
-
-        alert("ya existe ese mail");
-        return false;
-
-    }
-
-    return true ;
-}
-
-function iniciarCarrito(){
-
-    let lista1 = "" ;
-    let finalizar_carrito = false ;
-
-    while (!finalizar_carrito){
-
-        let codigoProductos = prompt("Ingrese codigo de producto");
-        let producto = obtenerCodProducto(codigoProductos);
-
-        if (producto){
-            console.log("Producto agregado con exito! : "+producto);
-            lista1 += "\n"+producto;
-        }else{
-
-            if (codigoProductos === null){
-                finalizar_carrito = true ;
-            }else {
-                alert("Ingrese un codigo de producto valido");
-            }
-        }
-    }
-    if (lista1 != ""){
-
-        let resp = confirm ("Quiere finalizar la compra de : "+lista1);
-        if (resp){
-            console.log("Finalizaron la compra de : " + lista1);
-            alert("Gracias por confiar en deco_sillonesnya!");
-        }
-    }
-}
-
-function obtenerCodProducto(codigoProductos){ 
-
-    let producto  ;
-    switch(codigoProductos){
-
-        case "1" : 
-                    producto = "Juego Acapulco";
-                    break;
-        case "2" : 
-                    producto = "Juego Asuncion";
-                    break;
-        case "3" : 
-                    producto = "Juego Capri" ;
-                    break;
-        case "4" : 
-                    producto = "Sillon Doble"
-                    break;       
-        case "5" : 
-                    producto = "Juego Gervasoni" ;
-                    break;
-        case "6" : 
-                    producto = "Silla Tulum" ;
-                    break;
-         default :
-                    producto = false;           
-    }
-   return producto ;  
-}
+agCapri.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    arrayCarrito.push(arrayProductos[2]);
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Capri al carrito`);
+    agCapri.innerHTML = `<h3 id="ag-capri"><a href="#">AGREGAR AL CARRITO</a></h3>
+                        <img src="img/CARRITO.png" class="carritoimg">`;
+                        const carritoJson = JSON.stringify(arrayCarrito);
+                        localStorage.setItem("carrito", carritoJson);
+                        mostrarCarrito();
+    }else{
+        agCapri.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+    }}
+) 
+    
+agDoble.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    arrayCarrito.push(arrayProductos[3]);
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Sillon Doble al carrito`);
+    agDoble.innerHTML = `<h3 id="ag-doble"><a href="#">AGREGAR AL CARRITO</a></h3>
+                        <img src="img/CARRITO.png" class="carritoimg">`;
+                        const carritoJson = JSON.stringify(arrayCarrito);
+                        localStorage.setItem("carrito", carritoJson);
+                        mostrarCarrito();
+    }else{
+        agDoble.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+    }}
+) 
+    
+agGervasoni.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    arrayCarrito.push(arrayProductos[4]);
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Gervasoni al carrito`);
+    agGervasoni.innerHTML = `<h3 id="ag-gervasoni"><a href="#">AGREGAR AL CARRITO</a></h3>
+                            <img src="img/CARRITO.png" class="carritoimg">`;
+                            const carritoJson = JSON.stringify(arrayCarrito);
+                            localStorage.setItem("carrito", carritoJson);
+                            mostrarCarrito();
+    }else{
+        agGervasoni.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+    }}
+) 
+    
+agTulum.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    arrayCarrito.push(arrayProductos[5]);
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Silla Tulum al carrito`);
+    agTulum.innerHTML = `<h3 id="ag-tulum"><a href="#">AGREGAR AL CARRITO</a></h3>
+                        <img src="img/CARRITO.png" class="carritoimg">`;
+                        const carritoJson = JSON.stringify(arrayCarrito);
+                        localStorage.setItem("carrito", carritoJson);
+                        mostrarCarrito();
+    }else{
+        agTulum.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+    }}
+) 

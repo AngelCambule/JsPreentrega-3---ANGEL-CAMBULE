@@ -19,6 +19,30 @@ nav {
   padding-top: 20px;
   backdrop-filter: blur(2px);
   z-index: 2; }
+  nav h2{
+    font-size: 20px;
+    font-weight: lighter;
+    margin-top: 15px;}
+  nav ul{
+    list-style: none;}
+  nav ul li{
+    display: inline-block;
+    margin-top: 14px;
+  }
+    nav ul li a{
+      text-decoration: none;
+      color: white;
+      margin-left: 20px;
+      padding: 10px;}
+    
+    nav ul li a:hover{
+    text-transform: underline white 1px solid;
+    background-color: rgba(20, 14, 46, 0.521);
+    border-radius: 15px;
+    border: 1px white solid;
+    padding: 9px;
+    color: white;}
+
   nav img {
     height: 65px; }
 
@@ -36,7 +60,7 @@ nav {
     align-items: center;
     padding-bottom: 5rem;
     padding-top: 2rem;
-    gap: 1rem;
+    gap: 4rem;
     text-align: center;
     color: white; }
     .headerproductos .container h1 {
@@ -47,11 +71,29 @@ nav {
       border: 1px white solid;
       align-items: center;
       justify-content: center; }
+    .headerproductos .container h1 .infoCarrito{
+      font-size: 20px;}
+    .headerproductos .container p .productosCarrito{
+      font-size: 16px;
+      font-weight: lighter;}
     .headerproductos .container h2 {
       font-weight: bold;
-      border-bottom: 1px solid white;
       display: inline-block;
-      margin-top: 5px; }
+      margin-top: 5px; 
+      margin-bottom: 5px;}
+    .headerproductos .container h3{
+      padding: 6px;
+      margin-top: 5px;
+      margin-bottom: 8px;
+      font-size: 15px;}
+    .headerproductos .container h3 a{
+      color: white;
+      text-decoration: none;
+      font-size: 15px;}
+      .headerproductos .container h3 a:hover{
+        color: white;
+        text-decoration: underline;
+        font-size: 15px;}
     .headerproductos .container .modelo {
       width: 250px;
       color: black;
@@ -63,7 +105,12 @@ nav {
       backdrop-filter: blur(3px);
       background-color: rgba(20, 14, 46, 0.521); }
       .headerproductos .container .modelo img {
-        width: 200px; }
+        width: 200px; 
+        border: 1px solid white;}
+      .headerproductos .container .modelo .carritoimg {
+        height: 50px;
+        width: 50px;
+        border: none; }
 
 .productosextra {
   display: flex;
@@ -71,7 +118,7 @@ nav {
   align-items: center;
   flex-wrap: wrap;
   padding-top: 2rem;
-  gap: 1rem;
+  gap: 4rem;
   text-align: center;
   background-image: url(../img/fondoproductosex.jpg);
   background-repeat: repeat;
@@ -83,10 +130,23 @@ nav {
     color: white; }
   .productosextra h2 {
     font-weight: bold;
-    border-bottom: 1px solid white;
     display: inline-block;
     margin-top: 5px;
-    color: white; }
+    color: white; 
+    margin-bottom: 5px;}
+  .productosextra h3{
+    padding: 6px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    font-size: 15px;}
+  .productosextra h3 a{
+    text-decoration: none;
+    color: white;
+    font-size: 15px;}
+    .productosextra h3 a:hover{
+      text-decoration: underline;
+      color: white;
+      font-size: 15px;}
   .productosextra .modelo2 {
     color: white;
     width: 250px;
@@ -99,7 +159,12 @@ nav {
     backdrop-filter: blur(2px);
     margin-bottom: 15px; }
     .productosextra .modelo2 img {
-      width: 200px; }
+      width: 200px;
+      border: 1px solid white; }
+      .productosextra .modelo2 .carritoimg {
+      height: 50px;
+      width: 50px;
+      border: none; }
 
 
 /* Footer */
@@ -147,7 +212,7 @@ footer .derechos {
       margin-bottom: 50px;
       margin-right: 15px; }
     .headerproductos .container h2 {
-      margin-bottom: 20px; }
+      margin-bottom: 5px; }
     .headerproductos .container img {
       border: 1px solid white; }
   .productosextra {
@@ -158,8 +223,10 @@ footer .derechos {
       margin-right: 0px;
       color: white; }
     .productosextra h2 {
-      margin-bottom: 20px;
+      margin-bottom: 5px;
       color: white; }
     .productosextra img {
       border: 1px solid white; }
+      .productosextra img .carritoimg{
+        border: none; }
     }
