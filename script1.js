@@ -66,7 +66,19 @@ function registrarse(){
         const clienteN = localStorage.getItem("cliente");
         console.log(`Se logueo el cliente: ${clienteN}`);
 
-        innersLogueo();}
+        innersLogueo();
+    }else{
+        navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
+        <form id="formulario">
+            <label>Por favor registre sus datos a continuacion:</label>
+            <br>
+            <input type="text" id="usuario" placeholder="User">
+            <input type="text" id="password" placeholder="Password">
+            <button>Registrarse</button><br>
+            <label>Debes completar todos los campos!</label>
+        </form>`;
+        registrarse();
+    }
 })}
 
 //Inners post-logueo
@@ -81,7 +93,14 @@ function innersLogueo(){
 
     navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
                         <h2>Bienvenido ${arrayUsuarios[0].user}!</h2>
-                        <a class="btnSalir" href="#">Salir</a>`
+                        <a class="btnSalir" id="btnSalir" href="#">Salir</a>`
+    const btnSalir = document.getElementById("btnSalir");
+    btnSalir.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.clear();
+        location.reload();
+    })
+
 }
 
 //Carrito - Mostrar/Eliminar
@@ -90,7 +109,6 @@ function mostrarCarrito(){
     const carritoRec = localStorage.getItem("carrito");
     const carritoObjeto = JSON.parse(carritoRec);
     
-    prodCarrito.innerHTML = `<span class="infoCarrito">Tu carrito:</span>`;
     carritoObjeto.forEach(Carrito => {
         const pCarrito = document.createElement("p");
         pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - $${Carrito.precio} c/u (${Carrito.cantidad}) | <button id="btnEliminar${Carrito.id}">Eliminar</button><br></p>`
@@ -150,7 +168,7 @@ agAcapulco.addEventListener("click", (e) => {
                             <img src="img/CARRITO.png" class="carritoimg">`;
                             agregarCarrito(arrayProductos[0].id);
     }else{
-        agAcapulco.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+        agAcapulco.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
 ) 
 
@@ -163,7 +181,7 @@ agAsuncion.addEventListener("click", (e) => {
 
                             agregarCarrito(arrayProductos[1].id);
     }else{
-        agAsuncion.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+        agAsuncion.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
 ) 
 
@@ -176,7 +194,7 @@ agCapri.addEventListener("click", (e) => {
 
                         agregarCarrito(arrayProductos[2].id);
     }else{
-        agCapri.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+        agCapri.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
 ) 
     
@@ -189,7 +207,7 @@ agGervasoni.addEventListener("click", (e) => {
 
                             agregarCarrito(arrayProductos[3].id);
     }else{
-        agGervasoni.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+        agGervasoni.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
 ) 
 
@@ -202,7 +220,7 @@ agDoble.addEventListener("click", (e) => {
 
                         agregarCarrito(arrayProductos[4].id);
     }else{
-        agDoble.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+        agDoble.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
 ) 
     
@@ -216,6 +234,6 @@ agTulum.addEventListener("click", (e) => {
 
                         agregarCarrito(arrayProductos[5].id);
     }else{
-        agTulum.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+        agTulum.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
 ) 
