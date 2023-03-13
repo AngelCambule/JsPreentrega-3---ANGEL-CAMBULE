@@ -58,15 +58,15 @@ function registrarse(){
     e.preventDefault();
     const usuario = document.getElementById("usuario").value;
     const password = document.getElementById("password").value;
+    if (usuario != "" && password != ""){
+        let clienteNuevo = new Usuario (usuario, password);
+        arrayUsuarios.push(clienteNuevo);
+        const clienteJson = JSON.stringify(arrayUsuarios);
+        localStorage.setItem("cliente", clienteJson);
+        const clienteN = localStorage.getItem("cliente");
+        console.log(`Se logueo el cliente: ${clienteN}`);
 
-    let clienteNuevo = new Usuario (usuario, password);
-    arrayUsuarios.push(clienteNuevo);
-    const clienteJson = JSON.stringify(arrayUsuarios);
-    localStorage.setItem("cliente", clienteJson);
-    const clienteN = localStorage.getItem("cliente");
-    console.log(`Se logueo el cliente: ${clienteN}`);
-
-    innersLogueo();
+        innersLogueo();}
 })}
 
 //Inners post-logueo
@@ -81,10 +81,10 @@ function innersLogueo(){
 
     navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
                         <h2>Bienvenido ${arrayUsuarios[0].user}!</h2>
-                        <h2>Salir</h2>`
+                        <a class="btnSalir" href="#">Salir</a>`
 }
 
-//Carrito - Mostrar
+//Carrito - Mostrar/Eliminar
 
 function mostrarCarrito(){
     const carritoRec = localStorage.getItem("carrito");
@@ -115,6 +115,10 @@ const eliminarProdcarrito = (id) => {
     arrayCarrito.splice(index,1);
     mostrarCarrito();
 }
+
+//
+
+
 
 //Botones para Agregar al Carrito
 
