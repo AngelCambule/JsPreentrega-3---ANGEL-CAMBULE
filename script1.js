@@ -12,6 +12,7 @@ class Producto{
         this.nombre = nombre;
         this.precio = precio;
         this.id = id;
+        this.cantidad = 1;
     }
 }
 
@@ -98,6 +99,9 @@ function mostrarCarrito(){
         const btnEliminar = document.getElementById(`btnEliminar${Carrito.id}`);
         btnEliminar.addEventListener("click", () => {
             eliminarProdcarrito(Carrito.id);
+            const carritoJson = JSON.stringify(arrayCarrito);
+            localStorage.setItem("carrito", carritoJson);
+            mostrarCarrito();
         })
         
 })}
