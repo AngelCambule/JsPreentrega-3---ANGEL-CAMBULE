@@ -93,7 +93,7 @@ function mostrarCarrito(){
     prodCarrito.innerHTML = `<span class="infoCarrito">Tu carrito:</span>`;
     carritoObjeto.forEach(Carrito => {
         const pCarrito = document.createElement("p");
-        pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - ${Carrito.precio} | <button id="btnEliminar${Carrito.id}">Eliminar</button><br></p>`
+        pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - $${Carrito.precio} c/u (${Carrito.cantidad}) | <button id="btnEliminar${Carrito.id}">Eliminar</button><br></p>`
         prodCarrito.appendChild(pCarrito);
 
         const btnEliminar = document.getElementById(`btnEliminar${Carrito.id}`);
@@ -102,6 +102,7 @@ function mostrarCarrito(){
             const carritoJson = JSON.stringify(arrayCarrito);
             localStorage.setItem("carrito", carritoJson);
             mostrarCarrito();
+
         })
         
 })}
@@ -124,16 +125,26 @@ const agDoble = document.getElementById("ag-doble");
 const agGervasoni = document.getElementById("ag-gervasoni");
 const agTulum = document.getElementById("ag-tulum");
 
-agAcapulco.addEventListener("click", (e) => {
-    e.preventDefault();
-    if(arrayUsuarios[0] !== undefined){
-    arrayCarrito.push(arrayProductos[0]);
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Acapulco al carrito`);
-    agAcapulco.innerHTML = `<h3 id="ag-acapulco"><a href="#">AGREGAR AL CARRITO</a></h3>
-                            <img src="img/CARRITO.png" class="carritoimg">`;
+agregarCarrito = (id) => {
+    const productoenCarrito = arrayCarrito.find(arrayProductos => arrayProductos.id === id);
+    if(productoenCarrito) {
+        productoenCarrito.cantidad++;
+    }else{
+        const prodAdd = arrayProductos.find(arrayProductos => arrayProductos.id === id)
+        arrayCarrito.push(prodAdd);
+    }
     const carritoJson = JSON.stringify(arrayCarrito);
     localStorage.setItem("carrito", carritoJson);
     mostrarCarrito();
+
+}
+agAcapulco.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Acapulco al carrito`);
+    agAcapulco.innerHTML = `<h3 id="ag-acapulco"><a href="#">AGREGAR AL CARRITO</a></h3>
+                            <img src="img/CARRITO.png" class="carritoimg">`;
+                            agregarCarrito(arrayProductos[0].id);
     }else{
         agAcapulco.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
     }}
@@ -142,13 +153,11 @@ agAcapulco.addEventListener("click", (e) => {
 agAsuncion.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    arrayCarrito.push(arrayProductos[1]);
     console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Asuncion al carrito`);
     agAsuncion.innerHTML = `<h3 id="ag-asuncion"><a href="#">AGREGAR AL CARRITO</a></h3>
                             <img src="img/CARRITO.png" class="carritoimg">`;
-                            const carritoJson = JSON.stringify(arrayCarrito);
-                            localStorage.setItem("carrito", carritoJson);
-                            mostrarCarrito();
+
+                            agregarCarrito(arrayProductos[1].id);
     }else{
         agAsuncion.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
     }}
@@ -157,58 +166,51 @@ agAsuncion.addEventListener("click", (e) => {
 agCapri.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    arrayCarrito.push(arrayProductos[2]);
     console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Capri al carrito`);
     agCapri.innerHTML = `<h3 id="ag-capri"><a href="#">AGREGAR AL CARRITO</a></h3>
                         <img src="img/CARRITO.png" class="carritoimg">`;
-                        const carritoJson = JSON.stringify(arrayCarrito);
-                        localStorage.setItem("carrito", carritoJson);
-                        mostrarCarrito();
+
+                        agregarCarrito(arrayProductos[2].id);
     }else{
         agCapri.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
-    }}
-) 
-    
-agDoble.addEventListener("click", (e) => {
-    e.preventDefault();
-    if(arrayUsuarios[0] !== undefined){
-    arrayCarrito.push(arrayProductos[3]);
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Sillon Doble al carrito`);
-    agDoble.innerHTML = `<h3 id="ag-doble"><a href="#">AGREGAR AL CARRITO</a></h3>
-                        <img src="img/CARRITO.png" class="carritoimg">`;
-                        const carritoJson = JSON.stringify(arrayCarrito);
-                        localStorage.setItem("carrito", carritoJson);
-                        mostrarCarrito();
-    }else{
-        agDoble.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
     }}
 ) 
     
 agGervasoni.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    arrayCarrito.push(arrayProductos[4]);
     console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Gervasoni al carrito`);
     agGervasoni.innerHTML = `<h3 id="ag-gervasoni"><a href="#">AGREGAR AL CARRITO</a></h3>
                             <img src="img/CARRITO.png" class="carritoimg">`;
-                            const carritoJson = JSON.stringify(arrayCarrito);
-                            localStorage.setItem("carrito", carritoJson);
-                            mostrarCarrito();
+
+                            agregarCarrito(arrayProductos[3].id);
     }else{
         agGervasoni.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
     }}
 ) 
+
+agDoble.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(arrayUsuarios[0] !== undefined){
+    console.log(`El usuario ${arrayUsuarios[0].user} agrego Sillon Doble al carrito`);
+    agDoble.innerHTML = `<h3 id="ag-doble"><a href="#">AGREGAR AL CARRITO</a></h3>
+                        <img src="img/CARRITO.png" class="carritoimg">`;
+
+                        agregarCarrito(arrayProductos[4].id);
+    }else{
+        agDoble.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
+    }}
+) 
+    
     
 agTulum.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    arrayCarrito.push(arrayProductos[5]);
     console.log(`El usuario ${arrayUsuarios[0].user} agrego Silla Tulum al carrito`);
     agTulum.innerHTML = `<h3 id="ag-tulum"><a href="#">AGREGAR AL CARRITO</a></h3>
                         <img src="img/CARRITO.png" class="carritoimg">`;
-                        const carritoJson = JSON.stringify(arrayCarrito);
-                        localStorage.setItem("carrito", carritoJson);
-                        mostrarCarrito();
+
+                        agregarCarrito(arrayProductos[5].id);
     }else{
         agTulum.innerHTML = `<p>Debes Iniciar Sesion para poder comprar!</p>`;
     }}
