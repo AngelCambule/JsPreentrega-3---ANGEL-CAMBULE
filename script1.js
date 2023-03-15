@@ -61,11 +61,8 @@ function registrarse(){
     if (usuario != "" && password != ""){
         let clienteNuevo = new Usuario (usuario, password);
         arrayUsuarios.push(clienteNuevo);
-        const clienteJson = JSON.stringify(arrayUsuarios);
-        localStorage.setItem("cliente", clienteJson);
-        const clienteN = localStorage.getItem("cliente");
-        console.log(`Se logueo el cliente: ${clienteN}`);
-
+        localStorage.setItem("cliente", JSON.stringify(arrayUsuarios));
+        console.log(`Se logueo el cliente : ${arrayUsuarios[0].user}`)
         innersLogueo();
     }else{
         navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
@@ -105,7 +102,10 @@ function innersLogueo(){
 
 //Carrito - Mostrar/Eliminar
 
+
 function mostrarCarrito(){
+
+    const totalCarrito = arrayCarrito.reduce((acumulador, arrayCarrito) => acumulador + (arrayCarrito.precio * arrayCarrito.cantidad), 0)
     const carritoRec = localStorage.getItem("carrito");
     const carritoObjeto = JSON.parse(carritoRec);
     if(arrayCarrito.length > 0){
@@ -114,21 +114,63 @@ function mostrarCarrito(){
         prodCarrito.innerHTML = `<span class="infoCarrito">Tu carrito:</span></h1>
                                 <p class="noProd">No hay productos en el carrito!</p>`;
     }
+
     carritoObjeto.forEach(Carrito => {
         const pCarrito = document.createElement("p");
-        pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - $${Carrito.precio} c/u (${Carrito.cantidad}) | <button class="btnEliminar" id="btnEliminar${Carrito.id}">-</button><br></p>`
+        pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - $${Carrito.precio} c/u (${Carrito.cantidad}) | 
+                                <button class="btnCarrito" id="btnEliminar${Carrito.id}">-</button> <button class="btnCarrito" id="btnSumar${Carrito.id}">+</button>
+                                <button class="btnCarrito" id="btnEliminar${Carrito.id}todo">Eliminar</button><br></p>`
         prodCarrito.appendChild(pCarrito);
 
         const btnEliminar = document.getElementById(`btnEliminar${Carrito.id}`);
         btnEliminar.addEventListener("click", () => {
             eliminarProdcarrito(Carrito.id);
-            const carritoJson = JSON.stringify(arrayCarrito);
-            localStorage.setItem("carrito", carritoJson);
             mostrarCarrito();
-
         })
+
+        const btnEliminartodo = document.getElementById(`btnEliminar${Carrito.id}todo`);
+        btnEliminartodo.addEventListener("click", () => {
+            eliminarProdcarritotodo(Carrito.id);
+            mostrarCarrito();  
+        })
+
+        const btnSumar = document.getElementById(`btnSumar${Carrito.id}`);
+        btnSumar.addEventListener("click", () => {
+            sumarCarrito(Carrito.id);
+            mostrarCarrito();  
+        })
+
+        localStorage.setItem("carrito", JSON.stringify(arrayCarrito));
+        })
+        const totalinfoCarrito = document.createElement("p");
+        totalinfoCarrito.innerHTML = `<p class="totalCarrito">Total : $${totalCarrito}</p>
+                                        <button class="btnCarrito" id="btnComprar">Finalizar Compra</button>`
+        prodCarrito.appendChild(totalinfoCarrito);
         
-})}
+        const btnComprar = document.getElementById("btnComprar");
+        btnComprar.addEventListener("click", () => {
+            prodCarrito.innerHTML = `Gracias! Compraste : `;
+                carritoObjeto.forEach(Carrito => {
+                    const pCarrito = document.createElement("p");
+                    pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - $${Carrito.precio} c/u (${Carrito.cantidad})`
+                    prodCarrito.appendChild(pCarrito);
+            })
+            const totalinfoCarrito = document.createElement("p");
+            totalinfoCarrito.innerHTML = `<p class="totalCarrito">Total : $${totalCarrito}</p>
+                                        <button class="btnCarrito" id="btnPagar">Ir a Pagar</button>`
+            prodCarrito.appendChild(totalinfoCarrito);
+            
+            const btnPagar = document.getElementById("btnPagar");
+            btnPagar.addEventListener("click", () => {
+                const hp = document.getElementById("modelo");
+                const pex = document.getElementById("pex");
+                pex.classList.remove("productosextra");
+                hp.innerHTML = `<h2 class="prodCarrito">Podes abonar con mercadopago haciendo click <a href="https://www.mercadopago.com">ACA!</a></h2><br>
+                                 <p class="totalCarritoend">Total : $${totalCarrito}</p>`;
+                pex.innerHTML = ``
+            })
+        })
+}
 
 //Eliminar del Carrito
 
@@ -141,6 +183,17 @@ const eliminarProdcarrito = (id) => {
         const index = arrayCarrito.indexOf(prod);
         arrayCarrito.splice(index,1);
     }
+    mostrarCarrito();
+}
+
+const eliminarProdcarritotodo = (id) => {
+    const productoenCarrito = arrayCarrito.find(arrayProductos => arrayProductos.id === id);
+
+        productoenCarrito.cantidad = 1;
+        const prod = arrayCarrito.find(carrito => carrito.id === id);
+        const index = arrayCarrito.indexOf(prod);
+        arrayCarrito.splice(index,1);
+    
     mostrarCarrito();
 }
 
@@ -157,6 +210,12 @@ const agDoble = document.getElementById("ag-doble");
 const agGervasoni = document.getElementById("ag-gervasoni");
 const agTulum = document.getElementById("ag-tulum");
 
+const sumarCarrito = (id) => {
+    const productoenCarrito = arrayCarrito.find(arrayProductos => arrayProductos.id === id);
+    productoenCarrito.cantidad++;
+    mostrarCarrito();
+}
+
 agregarCarrito = (id) => {
     const productoenCarrito = arrayCarrito.find(arrayProductos => arrayProductos.id === id);
     if(productoenCarrito) {
@@ -165,8 +224,7 @@ agregarCarrito = (id) => {
         const prodAdd = arrayProductos.find(arrayProductos => arrayProductos.id === id)
         arrayCarrito.push(prodAdd);
     }
-    const carritoJson = JSON.stringify(arrayCarrito);
-    localStorage.setItem("carrito", carritoJson);
+    localStorage.setItem("carrito", JSON.stringify(arrayCarrito));
     mostrarCarrito();
 
 }

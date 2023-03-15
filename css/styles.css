@@ -60,35 +60,49 @@ nav {
   background-position: center; }
   .headerproductos .container {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding-bottom: 5rem;
     padding-top: 2rem;
     gap: 4rem;
     text-align: center;
     color: white; }
-    .headerproductos .container .btnEliminar{
+    .headerproductos .container .btnCarrito{
       padding: 0px 5px;
-      font-size: 18px;
-      margin-left: 5px;}
+      font-size: 17px;
+      margin-left: 5px;
+      background-color:#00001d38;
+      color: white;
+      border: white solid 1px;
+      font-weight: bolder;}
     .headerproductos .container .noProd{
       margin-top: 10px;
       font-size: 15px;
       font-weight: lighter;
       font-style: italic;}
-    .headerproductos .container h1 {
+      .headerproductos .container .totalCarrito{
+        font-size: 25px;
+        backdrop-filter: blur(10px);
+        margin: 15px 0px;}
+        .headerproductos .container .totalCarritoend{
+          font-size: 35px;
+          backdrop-filter: blur(10px);
+          background-color: #00001d75;
+          margin: 15px 0px;}
+    .headerproductos .container .prodCarrito {
       padding: 10px;
       margin-right: 100px;
       background-color: rgba(20, 14, 46, 0.521);
       border-radius: 15px;
       border: 1px white solid;
-      align-items: center;
-      justify-content: center; }
-    .headerproductos .container h1 .infoCarrito{
+      display: flex;
+      flex-direction: column;}
+    .headerproductos .container .infoCarrito{
       font-size: 20px;}
-    .headerproductos .container p .productosCarrito{
-      font-size: 16px;
-      font-weight: lighter;}
+    .headerproductos .container .productosCarrito{
+      font-size: 18px;
+      font-weight: lighter;
+      margin-top: 10px;}
     .headerproductos .container h2 {
       font-weight: bold;
       display: inline-block;
@@ -220,10 +234,12 @@ footer .derechos {
   }
 @media screen and (max-width: 1280px) {
   .headerproductos .container {
-    flex-direction: column; }
-    .headerproductos .container h1 {
-      margin-bottom: 50px;
-      margin-right: 15px; }
+    display: flex;
+    flex-direction: column;
+    align-items: center;}
+    .headerproductos .container .prodCarrito{
+      margin-right: 20px;
+    }
     .headerproductos .container h2 {
       margin-bottom: 5px; }
     .headerproductos .container img {
