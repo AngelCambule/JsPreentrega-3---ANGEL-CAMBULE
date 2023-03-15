@@ -67,6 +67,15 @@ nav {
     gap: 4rem;
     text-align: center;
     color: white; }
+    .headerproductos .container .btnEliminar{
+      padding: 0px 5px;
+      font-size: 18px;
+      margin-left: 5px;}
+    .headerproductos .container .noProd{
+      margin-top: 10px;
+      font-size: 15px;
+      font-weight: lighter;
+      font-style: italic;}
     .headerproductos .container h1 {
       padding: 10px;
       margin-right: 100px;

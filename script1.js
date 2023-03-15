@@ -108,10 +108,15 @@ function innersLogueo(){
 function mostrarCarrito(){
     const carritoRec = localStorage.getItem("carrito");
     const carritoObjeto = JSON.parse(carritoRec);
-    
+    if(arrayCarrito.length > 0){
+        prodCarrito.innerHTML = `<span class="infoCarrito">Tu carrito:</span></h1>`;
+    }else{
+        prodCarrito.innerHTML = `<span class="infoCarrito">Tu carrito:</span></h1>
+                                <p class="noProd">No hay productos en el carrito!</p>`;
+    }
     carritoObjeto.forEach(Carrito => {
         const pCarrito = document.createElement("p");
-        pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - $${Carrito.precio} c/u (${Carrito.cantidad}) | <button id="btnEliminar${Carrito.id}">Eliminar</button><br></p>`
+        pCarrito.innerHTML = `<p class="productosCarrito">${Carrito.nombre} - $${Carrito.precio} c/u (${Carrito.cantidad}) | <button class="btnEliminar" id="btnEliminar${Carrito.id}">-</button><br></p>`
         prodCarrito.appendChild(pCarrito);
 
         const btnEliminar = document.getElementById(`btnEliminar${Carrito.id}`);
@@ -128,9 +133,14 @@ function mostrarCarrito(){
 //Eliminar del Carrito
 
 const eliminarProdcarrito = (id) => {
-    const prod = arrayCarrito.find(carrito => carrito.id === id);
-    const index = arrayCarrito.indexOf(prod);
-    arrayCarrito.splice(index,1);
+    const productoenCarrito = arrayCarrito.find(arrayProductos => arrayProductos.id === id);
+    if(productoenCarrito.cantidad > 1) {
+        productoenCarrito.cantidad--;
+    }else{
+        const prod = arrayCarrito.find(carrito => carrito.id === id);
+        const index = arrayCarrito.indexOf(prod);
+        arrayCarrito.splice(index,1);
+    }
     mostrarCarrito();
 }
 
@@ -163,10 +173,8 @@ agregarCarrito = (id) => {
 agAcapulco.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Acapulco al carrito`);
-    agAcapulco.innerHTML = `<h3 id="ag-acapulco"><a href="#">AGREGAR AL CARRITO</a></h3>
-                            <img src="img/CARRITO.png" class="carritoimg">`;
-                            agregarCarrito(arrayProductos[0].id);
+        console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Acapulco al carrito`);
+        agregarCarrito(arrayProductos[0].id);
     }else{
         agAcapulco.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
@@ -175,11 +183,8 @@ agAcapulco.addEventListener("click", (e) => {
 agAsuncion.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Asuncion al carrito`);
-    agAsuncion.innerHTML = `<h3 id="ag-asuncion"><a href="#">AGREGAR AL CARRITO</a></h3>
-                            <img src="img/CARRITO.png" class="carritoimg">`;
-
-                            agregarCarrito(arrayProductos[1].id);
+        console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Asuncion al carrito`);
+        agregarCarrito(arrayProductos[1].id);
     }else{
         agAsuncion.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
@@ -188,11 +193,8 @@ agAsuncion.addEventListener("click", (e) => {
 agCapri.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Capri al carrito`);
-    agCapri.innerHTML = `<h3 id="ag-capri"><a href="#">AGREGAR AL CARRITO</a></h3>
-                        <img src="img/CARRITO.png" class="carritoimg">`;
-
-                        agregarCarrito(arrayProductos[2].id);
+        console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Capri al carrito`);
+        agregarCarrito(arrayProductos[2].id);
     }else{
         agCapri.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
@@ -201,11 +203,8 @@ agCapri.addEventListener("click", (e) => {
 agGervasoni.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Gervasoni al carrito`);
-    agGervasoni.innerHTML = `<h3 id="ag-gervasoni"><a href="#">AGREGAR AL CARRITO</a></h3>
-                            <img src="img/CARRITO.png" class="carritoimg">`;
-
-                            agregarCarrito(arrayProductos[3].id);
+        console.log(`El usuario ${arrayUsuarios[0].user} agrego Juego Gervasoni al carrito`);
+        agregarCarrito(arrayProductos[3].id);
     }else{
         agGervasoni.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
@@ -214,11 +213,8 @@ agGervasoni.addEventListener("click", (e) => {
 agDoble.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Sillon Doble al carrito`);
-    agDoble.innerHTML = `<h3 id="ag-doble"><a href="#">AGREGAR AL CARRITO</a></h3>
-                        <img src="img/CARRITO.png" class="carritoimg">`;
-
-                        agregarCarrito(arrayProductos[4].id);
+        console.log(`El usuario ${arrayUsuarios[0].user} agrego Sillon Doble al carrito`);
+        agregarCarrito(arrayProductos[4].id);
     }else{
         agDoble.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
@@ -228,11 +224,8 @@ agDoble.addEventListener("click", (e) => {
 agTulum.addEventListener("click", (e) => {
     e.preventDefault();
     if(arrayUsuarios[0] !== undefined){
-    console.log(`El usuario ${arrayUsuarios[0].user} agrego Silla Tulum al carrito`);
-    agTulum.innerHTML = `<h3 id="ag-tulum"><a href="#">AGREGAR AL CARRITO</a></h3>
-                        <img src="img/CARRITO.png" class="carritoimg">`;
-
-                        agregarCarrito(arrayProductos[5].id);
+        console.log(`El usuario ${arrayUsuarios[0].user} agrego Silla Tulum al carrito`);
+        agregarCarrito(arrayProductos[5].id);
     }else{
         agTulum.innerHTML = `<p>Debes Registrarte para poder comprar!</p>`;
     }}
