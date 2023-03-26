@@ -16,18 +16,18 @@ class Producto{
     }
 }
 
-const acapulco = new Producto("Juego Acapulco", 13900, 1);
-const asuncion = new Producto("Juego Asuncion", 14900, 2);
-const capri = new Producto("Juego Capri", 14900, 3);
-const doble = new Producto("Sillon Doble", 9500, 4);
-const gervasoni = new Producto("Juego Gervasoni", 21900, 5);
-const tulum = new Producto("Silla Tulum", 6000, 6);
+const acapulco = new Producto("Juego Acapulco", 14900, 1);
+const asuncion = new Producto("Juego Asuncion", 15900, 2);
+const capri = new Producto("Juego Capri", 15900, 3);
+const doble = new Producto("Sillon Doble", 10500, 4);
+const gervasoni = new Producto("Juego Gervasoni", 22900, 5);
+const tulum = new Producto("Silla Tulum", 6200, 6);
 
 //Arrays
 
 const arrayUsuarios = [];
 const arrayProductos = [acapulco,asuncion,capri,gervasoni,doble,tulum];
-const arrayCarrito = [];
+const arrayCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 //Otros
 
@@ -35,6 +35,7 @@ const prodCarrito = document.getElementById("prodCarrito");
 const navBar = document.getElementById("navBar");
 
 //Registro
+
 
 const btnRegistro = document.getElementById("btn-registro");
 
@@ -64,6 +65,7 @@ function registrarse(){
         localStorage.setItem("cliente", JSON.stringify(arrayUsuarios));
         console.log(`Se logueo el cliente : ${arrayUsuarios[0].user}`)
         innersLogueo();
+        mostrarCarrito();
     }else{
         navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
         <form id="formulario">
@@ -90,6 +92,7 @@ function innersLogueo(){
 
     navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
                         <h2>Bienvenido ${arrayUsuarios[0].user}!</h2>
+                        <i class="fas fa-shopping-cart"></i>
                         <a class="btnSalir" id="btnSalir" href="#">Salir</a>`
     const btnSalir = document.getElementById("btnSalir");
     btnSalir.addEventListener("click", (e) => {
@@ -165,7 +168,7 @@ function mostrarCarrito(){
                 const hp = document.getElementById("modelo");
                 const pex = document.getElementById("pex");
                 pex.classList.remove("productosextra");
-                hp.innerHTML = `<h2 class="prodCarrito">Podes abonar con mercadopago haciendo click <a href="https://www.mercadopago.com">ACA!</a></h2><br>
+                hp.innerHTML = `<h2 class="prodCarrito">Podes abonar con mercadopago haciendo click <a href="https://www.mercadopago.com" target="_blank">ACA!</a></h2><br>
                                  <p class="totalCarritoend">Total : $${totalCarrito}</p>`;
                 pex.innerHTML = ``
             })
