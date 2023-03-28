@@ -92,7 +92,6 @@ function innersLogueo(){
 
     navBar.innerHTML = `<a href="index.html"><img src="img/logo.png" alt="Logo de deco_sillonesnya" class="nav__logo--img"></a>
                         <h2>Bienvenido ${arrayUsuarios[0].user}!</h2>
-                        <i class="fas fa-shopping-cart"></i>
                         <a class="btnSalir" id="btnSalir" href="#">Salir</a>`
     const btnSalir = document.getElementById("btnSalir");
     btnSalir.addEventListener("click", (e) => {
@@ -168,15 +167,14 @@ function mostrarCarrito(){
                 const hp = document.getElementById("modelo");
                 const pex = document.getElementById("pex");
                 pex.classList.remove("productosextra");
-                hp.innerHTML = `<h2 class="prodCarrito">Podes abonar con mercadopago haciendo click <a href="https://www.mercadopago.com" target="_blank">ACA!</a></h2><br>
-                                 <p class="totalCarritoend">Total : $${totalCarrito}</p>`;
+                hp.innerHTML = `<div><p class="totalCarritoend">Total : $${totalCarrito}</p>
+                                <h2 class="prodCarrito">Podes abonar con mercadopago haciendo click <a href="https://www.mercadopago.com" target="_blank">ACA!</a></h2><br></div>`;
                 pex.innerHTML = ``
             })
         })
 }
 
 //Eliminar del Carrito
-
 const eliminarProdcarrito = (id) => {
     const productoenCarrito = arrayCarrito.find(arrayProductos => arrayProductos.id === id);
     if(productoenCarrito.cantidad > 1) {
